@@ -1,0 +1,16 @@
+:root{--accent:#d62828;--dark:#222;--muted:#6c757d;--bg:#fafafa}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--dark);font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif}
+.topbar{font-size:.95rem}
+.hero{background:linear-gradient(180deg, rgba(214,40,40,0.04), rgba(255,255,255,0));}
+.muted{color:var(--muted)!important}
+.card{background:#fff;border-radius:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.05);border:0}
+@media (max-width:992px){ .hero .col-lg-5 { display:none; }}
+
+/* Make navbar fixed without covering content */
+body{padding-top:80px}
+@media (max-width:576px){body{padding-top:72px}}
+
+/* Hover effect for category cards */
+.card{transition:transform .18s ease, box-shadow .18s ease; cursor:pointer}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12)}

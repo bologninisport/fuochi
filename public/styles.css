@@ -13,4 +13,39 @@ body{padding-top:80px}
 .card{transition:transform .18s ease, box-shadow .18s ease; cursor:pointer}
 .card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12)}
 
-.carousel-control-prev-icon, .carousel-control-next-icon, .carousel-indicators [data-bs-target] {filter: invert(60%);}
+.carousel-control-prev-icon, .carousel-control-next-icon, .carousel-indicators [data-bs-target] {filter: invert(60%);} 
+
+/* Navbar and sections */
+.site-navbar {
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(16,24,40,0.08);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: box-shadow .18s ease, background .18s ease;
+}
+.site-navbar.scrolled { box-shadow: 0 10px 30px rgba(16,24,40,0.12); }
+.site-navbar .nav-link { 
+  font-weight: 600; 
+  color: #1f2937; 
+  padding: .45rem .85rem; 
+  margin: 0 .25rem;
+}
+.site-navbar .nav-link:hover { 
+  background: rgba(13,110,253,0.06); 
+  border-radius: .35rem; 
+  color: #0d6efd;
+}
+
+.hero {
+  background: linear-gradient(90deg, #0d6efd 0%, #6f42c1 100%);
+  color: #fff;
+}
+.hero h1, .hero p { color: #fff; }
+.hero .btn-primary { background:#fff; color:#0d6efd; border:0; }
+.hero .btn-primary:hover { background:#e9ecef; }
+
+/* Dropdown header style (used in categories menu) */
+.dropdown-header { font-weight: 700; }
+
+/* Status badge */
+.status-badge { padding: .55rem 1rem; font-size: .95rem; }
+#store-status .small { display:block; margin-top: .25rem; }

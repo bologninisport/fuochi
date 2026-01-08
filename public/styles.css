@@ -49,3 +49,11 @@ body{padding-top:80px}
 /* Status badge */
 .status-badge { padding: .55rem 1rem; font-size: .95rem; }
 #store-status .small { display:block; margin-top: .25rem; }
+
+footer {
+  background: #f8f9fa;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  padding: 2rem 0;
+  font-size: .9rem;
+  color: #6c757d;
+}

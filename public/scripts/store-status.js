@@ -97,7 +97,7 @@
         } else {
           // Find readable next opening day name
           const weekNames = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
-          const dayLabel = (next.day === day) ? 'oggi' : (next.day === (day+1)%7 ? 'domani' : `il ${weekNames[next.day]}`);
+          const dayLabel = (next.day === day) ? 'oggi' : (next.day === (day+1)%7 ? 'domani' : weekNames[next.day]);
           badge.innerHTML = `<span class="badge rounded-pill bg-danger status-badge">Chiuso</span> <div class="small text-muted mt-1">Apre ${dayLabel} alle ${minutesToHHMM(next.start)}</div>`;
         }
       } else {

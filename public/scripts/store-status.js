@@ -58,6 +58,21 @@
     const day = now.getDay();
     const nowMin = now.getHours()*60 + now.getMinutes();
 
+    // Evidenzia il giorno corrente nella tabella degli orari
+    const rows = document.querySelectorAll('#orari table tbody tr');
+    if(rows.length){
+      const dayOrder = [1,2,3,4,5,6,0]; // mapping delle righe (Lun..Dom) ai giorni (0=Dom)
+      rows.forEach((r, i) => {
+        if(dayOrder[i] === day){
+          r.classList.add('table-primary');
+          r.setAttribute('aria-current','true');
+        } else {
+          r.classList.remove('table-primary');
+          r.removeAttribute('aria-current');
+        }
+      });
+    }
+
     const periodsToday = schedule[day] || [];
     const current = findCurrentPeriod(periodsToday, nowMin);
 
@@ -83,10 +98,10 @@
           // Find readable next opening day name
           const weekNames = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
           const dayLabel = (next.day === day) ? 'oggi' : (next.day === (day+1)%7 ? 'domani' : `il ${weekNames[next.day]}`);
-          badge.innerHTML = `<span class="badge rounded-pill bg-secondary status-badge">Chiuso</span> <div class="small text-muted mt-1">Prossima apertura ${dayLabel} alle ${minutesToHHMM(next.start)}</div>`;
+          badge.innerHTML = `<span class="badge rounded-pill bg-danger status-badge">Chiuso</span> <div class="small text-muted mt-1">Apre ${dayLabel} alle ${minutesToHHMM(next.start)}</div>`;
         }
       } else {
-        badge.innerHTML = `<span class="badge rounded-pill bg-secondary status-badge">Chiuso</span> <div class="small text-muted mt-1">Nessuna apertura programmata</div>`;
+        badge.innerHTML = `<span class="badge rounded-pill bg-danger status-badge">Chiuso</span>`;
       }
     }
 

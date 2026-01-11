@@ -43,10 +43,6 @@ body{padding-top:80px}
 .hero .btn-primary { background:#fff; color:#0d6efd; border:0; }
 .hero .btn-primary:hover { background:#e9ecef; }
 
-/* Dropdown header style (used in categories menu) */
-.dropdown-header { font-weight: 700; }
-
-/* Status badge */
 .status-badge { padding: .55rem 1rem; font-size: .95rem; }
 #store-status .small { display:block; margin-top: .25rem; }
 
@@ -56,4 +52,24 @@ footer {
   padding: 2rem 0;
   font-size: .9rem;
   color: #6c757d;
+}
+
+/* Footer brands - reduce size and spacing on mobile */
+.footer-brands a img{max-width:250px;width:100%;height:auto}
+@media (max-width:767px){
+    .footer-brands{gap:1rem !important}
+    .footer-brands a{margin:0 .25rem}
+    .footer-brands a img{max-width:140px}
+}
+
+/* Lightbox styles for carousel images */
+.carousel .carousel-item img{cursor:zoom-in}
+#globalLightboxModal .modal-dialog{max-width:900px}
+#globalLightboxModal .modal-body{display:flex;justify-content:center;align-items:center;padding:1rem;background:#fff}
+#globalLightboxModal img{max-width:100%;max-height:80vh;object-fit:contain}
+.lightbox-controls .btn{opacity:.95}
+
+.gradient-section {
+  background: linear-gradient(90deg, #0d6efd 0%, #6610f2 100%);
+  border-radius: .5rem;
 }

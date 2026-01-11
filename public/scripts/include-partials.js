@@ -6,12 +6,24 @@ async function loadPartial(elId, url) {
     const html = await res.text();
     const el = document.getElementById(elId);
     if (el) el.innerHTML = html;
+    return el;
   } catch (err) {
     console.error(err);
+    return null;
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadPartial('navbar', '/partials/navbar.html');
-  loadPartial('footer', '/partials/footer.html');
+function loadScriptOnce(src){
+  if (document.querySelector(`script[src="${src}"]`)) return;
+  const s = document.createElement('script');
+  s.src = src; s.defer = true; s.async = false;
+  document.body.appendChild(s);
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadPartial('navbar', '/partials/navbar.html');
+  await loadPartial('footer', '/partials/footer.html');
+
+  // Load reusable scripts that depend on DOM/footer being present
+  loadScriptOnce('/scripts/lightbox.js');
 });

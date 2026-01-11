@@ -41,6 +41,10 @@ body{padding-top:80px}
     border: none;
 }
 
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
 .hero {
   background: linear-gradient(90deg, #0d6efd 0%, #6f42c1 100%);
   color: #fff;

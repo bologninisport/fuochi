@@ -73,3 +73,10 @@ footer {
   background: linear-gradient(90deg, #0d6efd 0%, #6610f2 100%);
   border-radius: .5rem;
 }
+
+#index-review-banner .gradient-review {
+  background: linear-gradient(90deg, #ff7a18 0%, #ff0047 50%, #6f42c1 100%);
+  transition:transform .18s ease, box-shadow .18s ease; 
+  cursor:pointer
+}
+#index-review-banner .gradient-review:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12)}

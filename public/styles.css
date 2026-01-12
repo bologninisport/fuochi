@@ -90,3 +90,8 @@ footer {
   cursor:pointer
 }
 #index-review-banner .gradient-review:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12)}
+
+.review-stars .bi {
+  font-size: 1.25rem; 
+  line-height: 1;
+}

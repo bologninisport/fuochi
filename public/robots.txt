@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://fuochi.bologninisport.com/sitemap.xml
+Host: https://fuochi.bologninisport.com

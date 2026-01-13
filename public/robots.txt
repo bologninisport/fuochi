@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 
+# Sitemap location
 Sitemap: https://fuochi.bologninisport.com/sitemap.xml
 Host: https://fuochi.bologninisport.com

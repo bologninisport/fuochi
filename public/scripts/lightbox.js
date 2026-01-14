@@ -66,7 +66,7 @@
             const link = document.createElement('a');
             link.href = img.src;
             link.dataset.lightbox = `carousel-${carouselIndex}`;
-            link.dataset.title = img.alt || '';
+            // link.dataset.title = img.alt || '';
             img.parentNode.insertBefore(link, img);
             link.appendChild(img);
           }

@@ -100,7 +100,7 @@ footer {
   .card-body {
     padding: 0.3rem; 
   }
-  #categorie.container{
+  #categorie .container{
     padding-left: 0.3rem;  
     padding-right: 0.3rem; 
   }

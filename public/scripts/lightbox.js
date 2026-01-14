@@ -1,89 +1,93 @@
-// Lightweight carousel image lightbox
-(function(){
-  function createModal(){
-    if (document.getElementById('globalLightboxModal')) return document.getElementById('globalLightboxModal');
+// lightbox.js
+// Inietta automaticamente Lightbox2 (CSS + JS) e collega le immagini dei caroselli Bootstrap
 
-    const modal = document.createElement('div');
-    modal.id = 'globalLightboxModal';
-    modal.className = 'modal fade';
-    modal.tabIndex = -1;
-    modal.setAttribute('aria-hidden','true');
-    modal.innerHTML = `
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-white border-0 shadow">
-          <div class="modal-body p-3 position-relative">
-            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close"></button>
-            <img src="" alt="" id="globalLightboxImage" class="d-block mx-auto">
-          </div>
-          <div class="modal-footer justify-content-between lightbox-controls border-0">
-            <button type="button" class="btn btn-outline-dark" id="globalLightboxPrev" aria-label="Previous">&larr;</button>
-            <button type="button" class="btn btn-outline-dark" id="globalLightboxNext" aria-label="Next">&rarr;</button>
-          </div>
-        </div>
-      </div>
-    `;
+(function() {
+  const LIGHTBOX_CSS = "https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css";
+  const LIGHTBOX_JS = "https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js";
 
-    document.body.appendChild(modal);
-    return modal;
+  function loadResource(type, url) {
+    return new Promise((resolve, reject) => {
+      if (type === "css") {
+        if (document.querySelector(`link[href="${url}"]`)) return resolve();
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = url;
+        link.onload = resolve;
+        link.onerror = reject;
+        document.head.appendChild(link);
+      } else if (type === "js") {
+        if (document.querySelector(`script[src="${url}"]`)) {
+          if (typeof lightbox !== "undefined") return resolve();
+          else return document.querySelector(`script[src="${url}"]`).addEventListener("load", resolve);
+        }
+        const script = document.createElement("script");
+        script.src = url;
+        script.defer = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      }
+    });
   }
 
-  function setup(){
-    const modalEl = createModal();
-    const imgEl = modalEl.querySelector('#globalLightboxImage');
-    const prevBtn = modalEl.querySelector('#globalLightboxPrev');
-    const nextBtn = modalEl.querySelector('#globalLightboxNext');
-    const bsModal = new bootstrap.Modal(modalEl);
+  async function ensureLightbox() {
+    try {
+      await loadResource("css", LIGHTBOX_CSS);
+      await loadResource("js", LIGHTBOX_JS);
+    } catch (err) {
+      console.error("Errore nel caricamento di Lightbox2:", err);
+    }
+  }
 
-    let currentIndex = 0;
-    let currentSet = [];
-
-    function openAt(index){
-      currentIndex = (index + currentSet.length) % currentSet.length;
-      imgEl.src = currentSet[currentIndex].src;
-      imgEl.alt = currentSet[currentIndex].alt || '';
-      bsModal.show();
+  function setupLightbox() {
+    if (typeof lightbox === 'undefined') {
+      console.warn("Lightbox2 non disponibile.");
+      return;
     }
 
-    function attachCarouselImgs(){
-      // find all carousel images
-      const images = document.querySelectorAll('.carousel .carousel-item img');
-      images.forEach(img => {
-        // ensure cursor style
-        img.style.cursor = 'zoom-in';
-        if (img._lbAttached) return;
-        img._lbAttached = true;
+    // Impostazioni predefinite
+    lightbox.option({
+      resizeDuration: 200,
+      wrapAround: true,
+      alwaysShowNavOnTouchDevices: true
+    });
 
-        img.addEventListener('click', (e) => {
-          e.preventDefault();
-          const carousel = img.closest('.carousel');
-          const setImgs = Array.from(carousel.querySelectorAll('.carousel-item img')).map(i=>({src:i.getAttribute('src'), alt:i.getAttribute('alt')||''}));
-          currentSet = setImgs;
-          const idx = setImgs.findIndex(i=>i.src === img.getAttribute('src'));
-          openAt(idx === -1 ? 0 : idx);
+    function attachCarouselImages() {
+      const carousels = document.querySelectorAll('.carousel');
+      
+      carousels.forEach((carousel, carouselIndex) => {
+        const imgs = carousel.querySelectorAll('.carousel-item img');
+
+        imgs.forEach((img) => {
+          if (img._lbAttached) return;
+          img._lbAttached = true;
+
+          if (!img.closest('a[data-lightbox]')) {
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.dataset.lightbox = `carousel-${carouselIndex}`;
+            link.dataset.title = img.alt || '';
+            img.parentNode.insertBefore(link, img);
+            link.appendChild(img);
+          }
+
+          img.style.cursor = 'zoom-in';
         });
       });
     }
 
-    // Previous / Next
-    prevBtn.addEventListener('click', () => openAt(currentIndex - 1));
-    nextBtn.addEventListener('click', () => openAt(currentIndex + 1));
-
-    // Keyboard navigation
-    modalEl.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') openAt(currentIndex -1);
-      if (e.key === 'ArrowRight') openAt(currentIndex +1);
-    });
-
-    // Re-scan when DOM changes (in case carousels are injected later)
-    const ro = new MutationObserver(() => attachCarouselImgs());
-    ro.observe(document.body, {childList:true, subtree:true});
-
-    // initial attach
-    attachCarouselImgs();
-
-    // Expose for debugging (optional)
-    window.__globalLightbox = { openAt, attachCarouselImgs };
+    const observer = new MutationObserver(() => attachCarouselImages());
+    observer.observe(document.body, { childList: true, subtree: true });
+    attachCarouselImages();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
+  async function init() {
+    await ensureLightbox();
+    setupLightbox();
+  }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else
+    init();
 })();

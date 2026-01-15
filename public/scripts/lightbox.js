@@ -2,8 +2,8 @@
 // Inietta automaticamente Lightbox2 (CSS + JS) e collega le immagini dei caroselli Bootstrap
 
 (function() {
-  const LIGHTBOX_CSS = "https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css";
-  const LIGHTBOX_JS = "https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js";
+  const LIGHTBOX_CSS = "/vendor/lightbox2/css/lightbox.min.css";
+  const LIGHTBOX_JS = "/vendor/lightbox2/js/lightbox.min.js";
 
   function loadResource(type, url) {
     return new Promise((resolve, reject) => {
